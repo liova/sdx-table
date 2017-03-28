@@ -1,0 +1,164 @@
+
+
+<div class="sdxcontainer" fullscreen="vm.zoom">
+    <div ng-show="vm.ficheKey" class="overlay">
+        <div class="ficheDetails">
+            <div ng-repeat="(key,tddetail) in vm.ficheKey">
+                <div ng-switch="vm.data.optionsCells[$index].config.type" ng-class-odd="'odd'" ng-class-even="'even'" class="ficheInfo" ng-show="vm.data.optionsCells[$index].config.show && vm.data.optionsCells[$index].config.include ">
+                    <div ng-switch-when="default">
+                        <strong> {{vm.data.optionsCells[$index].label}}</strong> :  {{tddetail}}
+                    </div>
+                    <div ng-switch-when="">
+                        <strong> {{vm.data.optionsCells[$index].label}}</strong> :  {{tddetail}}
+                    </div>
+                    <div ng-switch-when="number">
+                        <strong>  {{vm.data.optionsCells[$index].label}}</strong> :  {{tddetail}}
+                    </div>
+                    <div ng-switch-when="html" ng-bind-html="'<strong>'+vm.data.optionsCells[$index].label+'</strong> '+tddetail|unsafe">
+                    </div>
+                    <div ng-switch-when="string">
+                        <strong> {{vm.data.optionsCells[$index].label}}</strong> :   {{tddetail}}
+                    </div>
+                    <div ng-switch-when="date">
+                       <strong> {{vm.data.optionsCells[$index].label}}</strong> :  {{tddetail}}
+                    </div>
+                    <div ng-switch-when="url">
+                      <strong>  {{vm.data.optionsCells[$index].label}}</strong> :  {{tddetail}}
+                    </div>
+                    <div ng-switch-when="link">
+                        <strong> {{vm.data.optionsCells[$index].label}}</strong> :   {{tddetail}}
+                    </div>
+                    <div ng-switch-when="btn">
+                        <strong> {{vm.data.optionsCells[$index].label}}</strong> :  {{tddetail}}
+                    </div>
+                    <div ng-switch-when="menu" ng-bind-html="'<strong>'+vm.data.optionsCells[$index].label+'</strong> '+tddetail|unsafe">
+                    </div>
+                    <div ng-switch-when="img">
+                        <img ng-src="{{tddetail}}" />
+                    </div>
+                    <div ng-switch-when="checkbox">
+                        <input type="checkbox" id="{{vm.sdxTableId}}fiche{{key}}{{vm.ficheUnique}}" ng-model="tddetail" ng-change="vm.setCheckValue(vm.ficheUnique,tddetail,key)" />
+                        <label for="{{vm.sdxTableId}}fiche{{key}}{{vm.ficheUnique}}"><span>{{vm.data.optionsCells[$index].label}}</span></label>
+                    </div>
+                    <div ng-switch-when="checkAll">
+                        <input type="checkbox" id="{{vm.sdxTableId}}fiche{{key}}{{vm.ficheUnique}}" ng-model="tddetail" ng-change="vm.setCheckValue(vm.ficheUnique,tddetail,key)" />
+                        <label for="{{vm.sdxTableId}}fiche{{key}}{{vm.ficheUnique}}"><span>{{vm.data.optionsCells[$index].label}}</span></label>
+                    </div>
+                </div>
+                <!-- <strong>{{vm.data.optionsCells[$index].label}}</strong> : {{row}} -->
+            </div>
+            <div class="close" ng-click="vm.ficheKey=''"> &times;</div>
+        </div>
+    </div>
+    <div class="headertable">
+        <div class="zoom" ng-click="vm.toggleFullScreen()">
+            <i ng-class="vm.zoom ? 'icon-zoom-out' : 'icon-zoom-in'"></i>
+        </div>
+        <div class="help" ng-click="vm.help=!vm.help" ng-init="vm.help=false">
+            <i class="icon-help-circled"></i>
+        </div>
+        <div class="grid-3-small-3">
+            <div ng-if="vm.data.configTable.search" class="preferencesSearch">
+                <input type="search" ng-model="vm.search.$" class="searchstyle" placeholder="Rechercher...">
+            </div>
+            <div ng-if="vm.data.configTable.select" class="preferencesSelect">
+                <select name="numberItems" class="select-style" id="numberItems" ng-model="vm.selectedOption" ng-options="option.name for option in vm.options">
+                </select>
+            </div>
+            <div ng-if="vm.data.configTable.combo" class="preferencesCombo">
+                <a ng-click="vm.pref=!vm.pref" class="pref">Paramètres avancés</a>
+            </div>
+        </div>
+        <div ng-hide="vm.pref" class="combo">
+            <div class="grid-6-small-3">
+                <div ng-repeat="(key,th) in vm.data.optionsCells" ng-if="th.config.include" ng-show="vm.fixed!=th.key">
+                    <input type="checkbox" id="{{th.key}}Cb" ng-change="vm.sizeTable('resize')" ng-model="th.config.show" ng-disabled="" />
+                    <label for="{{th.key}}Cb"><span>{{th.label}}</span></label>
+                </div>
+            </div>
+        </div>
+        <div ng-show="vm.help" ng-if="vm.data.configTable.help" ng-bind-html="vm.data.configTable.helpContent|unsafe" class="helpContent">
+            ici
+        </div>
+    </div>
+    <div class="table" id="{{vm.sdxTableId}}">
+        <div class="table-arrow table-arrow-left" ng-click="vm.sizeTable('left')" ng-disabled="vm.dsbLeft" style="width:{{vm.data.configTable.widthSlideBtn}}px;"><i class="icon-left-open"></i></div>
+        <div class="table-arrow table-arrow-right" ng-click="vm.sizeTable('right')" ng-disabled="vm.dsbRight" style="width:{{vm.data.configTable.widthSlideBtn}}px;"><i class="icon-right-open"></i></div>
+        <div class="fixthis" ng-if="vm.sfixed!=''">
+            <sdx-fix-th-table datath="vm.datath" datakey="vm.datakey" dataperpage="vm.selectedOption.value" datareverse="vm.reverse" datasortby="vm.propertyName" dataviewby="vm.selectedOption" datasearch="vm.search" datathheight="vm.datathheight" thisth="vm.thisth" datatable="vm.data" optiontable="vm.data.configTable" datacurrentpage="vm.currentPage" datafixed="vm.fixed" tableid="vm.sdxTableId" decal="vm.decalFixed" onsortby="vm.sortBy()" idtable="vm.sdxTableId">
+            </sdx-fix-th-table>
+        </div>
+        <div class="slideContent">
+            <div class="tr thead">
+                <div class="th" ng-repeat="(key,th) in vm.data.optionsCells" ng-if="th.config.include" ng-show="th.config.show && th.key!=vm.fixed" ng-class="'th'+$index" style="width:{{th.config.width}}px;padding:{{vm.data.configTable.paddingThTb}}px {{vm.data.configTable.paddingCellLr}}px;">
+                    <a ng-if="!th.config.fixed" ng-click="vm.fixedCategory(th.key,th.config.width,'.th'+$index,vm.data.configTable.paddingThTb,vm.data.configTable.paddingCellLr,th,key)"><i class="icon-pin"></i></a>
+                    <br>
+                    <div ng-if="th.config.type=='checkAll'" ng-init="checkAll[$index]==true">
+                        <input type="checkbox" id="checkAll{{$index}}" ng-model="th.config.default" ng-change="vm.checkAllWatch(th.key,th.config.default,key);" />
+                        <label for="checkAll{{$index}}"><span>Tout</span></label>
+                    </div>
+                    <a ng-if="th.config.order && th.config.type!='checkAll'" ng-click="vm.sortBy(th.key)"> {{th.label}}
+                            <i ng-show="vm.propertyName!=th.key" class="icon-sort"></i>
+                            <i ng-show="vm.propertyName==th.key" ng-class="vm.reverse ? 'icon-sort-down' : 'icon-sort-up'"></i> 
+                        </a>
+                    <span ng-if="!th.config.order && th.config.type!='checkAll'">{{th.label}}</span>
+                </div>
+            </div>
+            <!-- s <div hm-swipeleft="vm.swipeTable('right')" hm-swiperight="vm.swipeTable('left')">  -->
+            <div id="hammerbox" hm-panleft="vm.onHammer" hm-panright="vm.onHammer" hm-panend="vm.onHammer">
+                <div sdx-paginate="(key,row) in vm.data.datas | filter:vm.search | orderBy: vm.propertyName : vm.reverse | itemsPerPage: vm.selectedOption.value" current-page="vm.currentPage" ng-init="indexRow = row.uniqId;" pagination-id="vm.sdxTableId">
+                    <div class="tr" ng-class-odd="'odd'" ng-class-even="'even'" id="tr{{$index}}" hm-doubletap="vm.ficheKey=row;vm.ficheUnique=row.uniqueId;vm.onHammer">
+                        <div class="td default" ng-repeat="(key,td) in row" ng-class="vm.data.optionsCells[$index].config.type" ng-show="vm.data.optionsCells[$index].config.show && vm.data.optionsCells[$index].config.include && vm.data.optionsCells[$index].key!=vm.fixed" ng-switch="vm.data.optionsCells[$index].config.type" style="width:{{vm.data.optionsCells[$index].config.width}}px;">
+                            <div ng-switch-when="default">
+                                {{td}}
+                            </div>
+                            <div ng-switch-when="">
+                                {{td}}
+                            </div>
+
+                            <div ng-switch-when="number">
+                                {{td}}
+                            </div>
+                            <div ng-switch-when="html" ng-bind-html="td|unsafe">
+                            </div>
+                            <div ng-switch-when="input"> ici
+                                <input ng-change="" ng-value="vm.data.optionsCells[$index].label" ng-model="td"/> ici {{td}}
+                            </div>
+                            <div ng-switch-when="string">
+                                {{td}}
+                            </div>
+                            <div ng-switch-when="date">
+                                {{td}}
+                            </div>
+                            <div ng-switch-when="url">
+                                {{td}}
+                            </div>
+                            <div ng-switch-when="link">
+                                {{td}}
+                            </div>
+                            <div ng-switch-when="btn">
+                                {{td}}
+                            </div>
+                            <div ng-switch-when="menu" ng-bind-html="vm.td">
+                            </div>
+                            <div ng-switch-when="img">
+                                <img ng-src="{{td}}" style="max-width:{{vm.data.optionsCells[$index].config.width-vm.data.configTable.paddingCellLr}}px;" />
+                            </div>
+                            <div ng-switch-when="checkbox">
+                                <input type="checkbox" id="{{vm.sdxTableId}}table{{key}}{{row.uniqueId}}" ng-model="td" ng-change="vm.setCheckValue(row.uniqueId,td,key)" />
+                                <label for="{{vm.sdxTableId}}table{{key}}{{row.uniqueId}}"><span>{{vm.data.optionsCells[$index].label}}</span></label>
+                            </div>
+                            <div ng-switch-when="checkAll">
+                                <input type="checkbox" id="{{vm.sdxTableId}}table{{key}}{{row.uniqueId}}" ng-model="td" ng-change="vm.setCheckValue(row.uniqueId,td,key)" />
+                                <label for="{{vm.sdxTableId}}table{{key}}{{row.uniqueId}}"><span></span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="center paginationcontent">
+        <sdx-pagination-controls max-size="5" boundary-links="true" template-url="views/table/pagination.tpl.html" pagination-id="vm.sdxTableId"></sdx-pagination-controls>
+    </div>
+</div>

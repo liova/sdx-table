@@ -1,0 +1,68 @@
+
+
+<div class="fixth" style="height:{{vm.datathheight}}px;padding:{{vm.optiontable.paddingThTb}}px {{vm.optiontable.paddingCellLr}}px;width:{{vm.decal}}px;">
+    <a ng-click="$parent.vm.fixedCategory(vm.datath.key)"><i class="icon-pin-2"></i></a><br>
+    <a ng-if="vm.datath.config.order && vm.datath.config.type!='checkAll'" ng-click="$parent.vm.sortBy(vm.datath.key)"> {{vm.datath.label}}
+        <i ng-show="vm.datasortby!=vm.datath.key" class="icon-sort"></i>
+        <i ng-show="vm.datasortby==vm.datath.key" ng-class="vm.datareverse ? 'icon-sort-down' : 'icon-sort-up'"></i> 
+    </a>
+    <div ng-if="vm.datath.config.type=='checkAll'" >
+        <input type="checkbox" id="checkAllFix{{vm.datakey}}" ng-model="vm.datath.config.default" ng-change="vm.checkAllWatch(vm.datath.key,vm.datath.config.default,vm.datafixed);" />
+        <label for="checkAllFix{{vm.datakey}}"><span>Tout</span></label>
+    </div>
+    <span ng-if="!vm.datath.config.order && vm.datath.config.type!='checkAll'">{{vm.datath.label}}</span>
+</div>
+
+<div  ng-if="vm.datafixed!=''" sdx-paginate="(key,row) in vm.datatable.datas | filter:vm.datasearch | orderBy: vm.datasortby: vm.datareverse | itemsPerPage: vm.dataperpage " current-page="vm.datacurrentpage"  pagination-id="vm.idtable">
+    <div class="tr fixtr" ng-class-odd="'odd'" ng-class-even="'even'" id="fixTh{{$index}}">
+        <div 
+        	class="td"
+        	ng-class="vm.datath.config.type" 
+        	ng-show="vm.datath.config.show && vm.datath.config.include && vm.datath.config.key==vm.fixed" 
+        	ng-switch="vm.datath.config.type" 
+        	style="width:{{vm.datath.config.width}}px;">
+
+            <div ng-switch-when="default" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                {{row[vm.datath.key]}}
+            </div>
+            <div ng-switch-when="" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                {{row[vm.datath.key]}}
+            </div>
+            <div ng-switch-when="number" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                {{row[vm.datath.key]}}
+            </div>
+            <div ng-switch-when="html" ng-bind-html="row[vm.datath.key]|unsafe" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+            </div>
+            <div ng-switch-when="string" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+               {{row[vm.datath.key]}}
+            </div>
+            <div ng-switch-when="date" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                {{row[vm.datath.key] | date}}
+            </div>
+            <div ng-switch-when="url" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                {{row[vm.datath.key]}}
+            </div>
+            <div ng-switch-when="link" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                {{row[vm.datath.key]}}
+            </div>
+            <div ng-switch-when="btn" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                {{row[vm.datath.key]}}
+            </div>
+            <div ng-switch-when="menu" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;" ng-bind-html="row[vm.datath.key]|unsafe">
+            </div>
+            <div ng-switch-when="img" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                <img ng-src="{{row[vm.datath.key]}}" style="max-width:{{vm.datath.config.width-vm.optiontable.paddingCellLr}}px;" />
+            </div>
+            <div ng-switch-when="checkbox" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                <input type="checkbox" id="{{vm.tableid}}fix{{vm.datath.key}}{{row.uniqueId}}" ng-model="row[vm.datath.key]" ng-change="$parent.vm.setCheckValue(row.uniqueId,row[vm.datath.key],vm.datafixed)" />
+                <label for="{{vm.tableid}}fix{{vm.datath.key}}{{row.uniqueId}}"><span></span></label>
+            </div>
+            <div ng-switch-when="checkAll" style="padding:{{vm.optiontable.paddingCellTb}}px {{vm.optiontable.paddingCellLr}}px;">
+                <input type="checkbox" id="{{vm.tableid}}fix{{vm.datath.key}}{{row.uniqueId}}" ng-model="row[vm.datath.key]" ng-change="$parent.vm.setCheckValue(row.uniqueId,row[vm.datath.key],vm.datafixed)" />
+                <label for="{{vm.tableid}}fix{{vm.datath.key}}{{row.uniqueId}}"><span></span></label>
+            </div>
+
+        </div>
+    </div>
+    <span ng-init="vm.checkHeight($index);"></span>
+</div>
