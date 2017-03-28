@@ -4,7 +4,7 @@ Directive sdx-table
 Je pars du principe que les tableaux ne doivent pas être responsive aux écrans, mais plutôt aux datas.
 En effet on peut souvent voir sur les sites en  version desktop et/ou mobile les effets dévastateurs d'un tableau.
 
-###Installation de la démo#
+### Installation de la démo #
 
 
 1. Récupérer l'archive ou cloner le dossier
